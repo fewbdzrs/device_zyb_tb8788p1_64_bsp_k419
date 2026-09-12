@@ -1,0 +1,27 @@
+# TWRP fstab for tb8788p1_64_bsp_k419
+# A/B device, dynamic partitions
+
+/system_root    ext4    /dev/block/mapper/system     flags=display="System";slotselect;logical
+/vendor         ext4    /dev/block/mapper/vendor     flags=display="Vendor";slotselect;logical
+/product        ext4    /dev/block/mapper/product    flags=display="Product";slotselect;logical
+
+/data           ext4    /dev/block/by-name/userdata  flags=display="Data";encryptable=footer
+/metadata       ext4    /dev/block/by-name/md_udc    flags=display="Metadata"
+
+/boot           emmc    /dev/block/by-name/boot      flags=display="Boot";slotselect
+/dtbo           emmc    /dev/block/by-name/dtbo      flags=display="DTBO";slotselect
+/vbmeta         emmc    /dev/block/by-name/vbmeta     flags=display="VBMeta";slotselect
+/vbmeta_system  emmc    /dev/block/by-name/vbmeta_system flags=display="VBMeta System";slotselect
+/vbmeta_vendor  emmc    /dev/block/by-name/vbmeta_vendor flags=display="VBMeta Vendor";slotselect
+
+/misc           emmc    /dev/block/by-name/para      flags=display="Misc"
+/persistent     emmc    /dev/block/by-name/frp       flags=display="Persistent"
+/nvram          emmc    /dev/block/by-name/nvram     flags=display="NVRAM"
+/nvdata         ext4    /dev/block/by-name/nvdata    flags=display="NVData"
+/nvcfg          ext4    /dev/block/by-name/nvcfg     flags=display="NVCFG"
+/protect_f      ext4    /dev/block/by-name/protect1  flags=display="Protect_F"
+/protect_s      ext4    /dev/block/by-name/protect2  flags=display="Protect_S"
+/proinfo        emmc    /dev/block/by-name/proinfo   flags=display="ProInfo"
+/logo           emmc    /dev/block/by-name/logo      flags=display="Logo"
+/expdb          emmc    /dev/block/by-name/expdb     flags=display="Expdb"
+/seccfg         emmc    /dev/block/by-name/seccfg    flags=display="SecCfg"
