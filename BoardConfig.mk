@@ -52,9 +52,6 @@ BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
 BOARD_KERNEL_IMAGE_NAME := Image
 
-# Ramdisk 压缩（瘦身 boot.img）
-LZMA_RAMDISK_TARGETS := boot
-
 # Prebuilt kernel
 TARGET_FORCE_PREBUILT_KERNEL := true
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
@@ -68,8 +65,6 @@ BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR := vendor
 TARGET_COPY_OUT_PRODUCT := product
 TARGET_COPY_OUT_SYSTEM_EXT := system_ext
@@ -94,39 +89,51 @@ PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := 2099-12-31
 PLATFORM_VERSION := 16.1.0
 
-# TWRP 基础
+# ============ TWRP 基础 ============
 TW_THEME := portrait_hdpi
-TW_EXTRA_LANGUAGES := true
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_USE_TOOLBOX := true
 TW_INCLUDE_REPACKTOOLS := true
 
-# TWRP 屏幕
+# ============ ramdisk 压缩（关键，省 10MB+）============
+BOARD_RAMDISK_USE_LZ4 := false
+TW_COMPRESSION := gzip
+
+# ============ 语言精简（省 3~5MB）============
+TW_EXTRA_LANGUAGES := false
+TW_DEFAULT_LANGUAGE := zh_CN
+
+# ============ 去掉用不到的组件 ============
+TW_EXCLUDE_TWRP_APP := true
+TW_EXCLUDE_DEFAULT_USB_INIT := true
+TW_EXCLUDE_SUPERSU := true
+TW_EXCLUDE_NANO := true
+TW_EXCLUDE_BASH := true
+TW_EXCLUDE_PYTHON := true
+TW_EXCLUDE_TUNE2FS := true
+
+# ============ TWRP 屏幕 ============
 DEVICE_RESOLUTION := 1600x2176
 TW_ROTATION := 180
-TW_MAX_BRIGHTNESS := 255
-TW_DEFAULT_BRIGHTNESS := 128
 
-# TWRP 触摸
+# ============ TWRP 触摸 ============
 TW_USE_TOUCHSCREEN := true
 
-# TWRP 加密 (Android 12 必须)
+# ============ TWRP 加密 (Android 12 必须) ============
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_CRYPTO_FBE := true
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
 TW_USE_FSCRYPT_POLICY := 1
 
-# TWRP 文件系统支持
+# ============ 文件系统支持（保留 NTFS / exFAT）============
 TW_INCLUDE_NTFS_3G := true
 TW_INCLUDE_FUSE_EXFAT := true
 TW_INCLUDE_FUSE_NTFS := true
 
-# TWRP 其他
-TW_EXCLUDE_DEFAULT_USB_INIT := true
-TW_EXCLUDE_TWRP_APP := true
+# ============ TWRP 其他 ============
 TW_HAS_EDL_MODE := true
 TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 
-# USB
+# ============ USB ============
 TW_DEFAULT_USB_ID := 0x0e8d
