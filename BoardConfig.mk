@@ -65,6 +65,8 @@ BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR := vendor
 TARGET_COPY_OUT_PRODUCT := product
 TARGET_COPY_OUT_SYSTEM_EXT := system_ext
@@ -96,11 +98,11 @@ TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_USE_TOOLBOX := true
 TW_INCLUDE_REPACKTOOLS := true
 
-# ============ ramdisk 压缩（关键，省 10MB+）============
+# ============ ramdisk 压缩 ============
 BOARD_RAMDISK_USE_LZ4 := false
 TW_COMPRESSION := gzip
 
-# ============ 语言精简（省 3~5MB）============
+# ============ 语言精简 ============
 TW_EXTRA_LANGUAGES := false
 TW_DEFAULT_LANGUAGE := zh_CN
 
@@ -120,13 +122,13 @@ TW_ROTATION := 180
 # ============ TWRP 触摸 ============
 TW_USE_TOUCHSCREEN := true
 
-# ============ TWRP 加密 (Android 12 必须) ============
+# ============ TWRP 加密 ============
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_CRYPTO_FBE := true
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
 TW_USE_FSCRYPT_POLICY := 1
 
-# ============ 文件系统支持（保留 NTFS / exFAT）============
+# ============ 文件系统支持 ============
 TW_INCLUDE_NTFS_3G := true
 TW_INCLUDE_FUSE_EXFAT := true
 TW_INCLUDE_FUSE_NTFS := true
