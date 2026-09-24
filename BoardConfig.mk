@@ -119,6 +119,11 @@ TW_EXCLUDE_TUNE2FS := true
 DEVICE_RESOLUTION := 1600x2176
 TW_ROTATION := 180
 
+# ============ TWRP 亮度 ============
+TW_MAX_BRIGHTNESS := 255
+TW_DEFAULT_BRIGHTNESS := 128
+TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
+
 # ============ TWRP 触摸 ============
 TW_USE_TOUCHSCREEN := true
 
