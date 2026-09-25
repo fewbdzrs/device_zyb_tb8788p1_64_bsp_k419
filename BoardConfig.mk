@@ -2,7 +2,7 @@ DEVICE_PATH := device/zyb/tb8788p1_64_bsp_k419
 
 ALLOW_MISSING_DEPENDENCIES := true
 
-# ============ 架构（必须放在最前面） ============
+# ============ 架构 ============
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
@@ -17,7 +17,7 @@ TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a53
 TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a53
 
-# ============ A/B + recovery-as-boot ============
+# ============ A/B ============
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
     boot \
@@ -27,7 +27,9 @@ AB_OTA_PARTITIONS += \
     vbmeta \
     vbmeta_system \
     vbmeta_vendor
-BOARD_USES_RECOVERY_AS_BOOT := true
+
+# ============ 关键：有独立 recovery 分区 ============
+BOARD_USES_RECOVERY_AS_BOOT := false
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := false
 
 # ============ Bootloader ============
@@ -58,6 +60,7 @@ BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
 # ============ 分区 ============
 BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_BOOTIMAGE_PARTITION_SIZE := 33554432
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
@@ -88,47 +91,64 @@ PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := 2099-12-31
 PLATFORM_VERSION := 16.1.0
 
-# ============ TWRP 基础 ============
+# ============================================================
+# TWRP 配置：所有功能全部开启
+# ============================================================
+
+# ============ 基础 ============
 TW_THEME := portrait_hdpi
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_USE_TOOLBOX := true
-
-# ============ 强制 gzip 压缩（关键） ============
-BOARD_RAMDISK_USE_LZ4 := false
-BOARD_RAMDISK_COMPRESSION := gzip
-
-# ============ 语言精简 ============
-TW_EXTRA_LANGUAGES := false
-TW_DEFAULT_LANGUAGE := zh_CN
-
-# ============ 去掉用不到的组件 ============
-TW_EXCLUDE_TWRP_APP := true
-TW_EXCLUDE_DEFAULT_USB_INIT := true
-TW_EXCLUDE_SUPERSU := true
-TW_EXCLUDE_NANO := true
-TW_EXCLUDE_BASH := true
-TW_EXCLUDE_PYTHON := true
-TW_EXCLUDE_TUNE2FS := true
-
-# ============ TWRP 屏幕参数 ============
-DEVICE_RESOLUTION := 1600x2176
-TW_ROTATION := 180
-
-# ============ TWRP 触摸 ============
-TW_USE_TOUCHSCREEN := true
-
-# ============ TWRP 加密 ============
+TW_INCLUDE_REPACKTOOLS := true
+TW_INCLUDE_RESETPROP := true
+TW_INCLUDE_LIBRESETPROP := true
+TW_INCLUDE_AVB := true
+TW_INCLUDE_VBMETA := true
+TW_INCLUDE_LPTOOLS := true
+TW_INCLUDE_LPDUMP := true
+TW_INCLUDE_LOGICAL_PARTITION := true
+TW_INCLUDE_FUSE_EXFAT := true
+TW_INCLUDE_FUSE_NTFS := true
+TW_INCLUDE_NTFS_3G := true
+TW_INCLUDE_F2FS := true
+TW_INCLUDE_BASH := true
+TW_INCLUDE_PYTHON := true
+TW_INCLUDE_NANO := true
+TW_INCLUDE_TUNE2FS := true
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_CRYPTO_FBE := true
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
+
+# ============ 语言：全部开启 ============
+TW_EXTRA_LANGUAGES := true
+TW_DEFAULT_LANGUAGE := zh_CN
+
+# ============ ramdisk 压缩（保留，无功能损失）============
+BOARD_RAMDISK_USE_LZ4 := false
+BOARD_RAMDISK_COMPRESSION := gzip
+
+# ============ 屏幕参数 ============
+DEVICE_RESOLUTION := 1600x2176
+TW_ROTATION := 180
+
+# ============ 触摸 ============
+TW_USE_TOUCHSCREEN := true
+
+# ============ 加密 ============
 TW_USE_FSCRYPT_POLICY := 1
+TW_FORCE_USE_BUSYBOX := true
 
-# ============ 文件系统支持（关掉省体积） ============
-TW_INCLUDE_NTFS_3G := false
-TW_INCLUDE_FUSE_EXFAT := false
-TW_INCLUDE_FUSE_NTFS := false
-
-# ============ TWRP 其他 ============
+# ============ 高级功能 ============
 TW_HAS_EDL_MODE := true
+TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
+TW_EXCLUDE_TWRP_APP := false
+TW_EXCLUDE_SUPERSU := false
+TW_EXCLUDE_DEFAULT_USB_INIT := false
+TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
+TW_MAX_BRIGHTNESS := 255
+TW_DEFAULT_BRIGHTNESS := 150
+TW_CUSTOM_CPU_TEMP_PATH := "/sys/class/thermal/thermal_zone0/temp"
+
+# ============ USB ============
 TW_DEFAULT_USB_ID := 0x0e8d
